@@ -1,7 +1,7 @@
 {
   "main.css": "/IllinoisCorona/static/css/main.edfb434a.chunk.css",
-  "main.js": "/IllinoisCorona/static/js/main.5720209e.chunk.js",
-  "main.js.map": "/IllinoisCorona/static/js/main.5720209e.chunk.js.map",
+  "main.js": "/IllinoisCorona/static/js/main.e7ffd281.chunk.js",
+  "main.js.map": "/IllinoisCorona/static/js/main.e7ffd281.chunk.js.map",
   "static/js/1.ff1f1c12.chunk.js": "/IllinoisCorona/static/js/1.ff1f1c12.chunk.js",
   "static/js/1.ff1f1c12.chunk.js.map": "/IllinoisCorona/static/js/1.ff1f1c12.chunk.js.map",
   "runtime~main.js": "/IllinoisCorona/static/js/runtime~main.513be25c.js",
@@ -13,6 +13,6 @@
   "static/media/coronavirus.svg": "/IllinoisCorona/static/media/coronavirus.b098170c.svg",
   "static/css/main.edfb434a.chunk.css.map": "/IllinoisCorona/static/css/main.edfb434a.chunk.css.map",
   "index.html": "/IllinoisCorona/index.html",
-  "precache-manifest.14032fb6eda3877bd5afb8884968aa27.js": "/IllinoisCorona/precache-manifest.14032fb6eda3877bd5afb8884968aa27.js",
+  "precache-manifest.cd196bf4247624b74a1e291e4bffd68f.js": "/IllinoisCorona/precache-manifest.cd196bf4247624b74a1e291e4bffd68f.js",
   "service-worker.js": "/IllinoisCorona/service-worker.js"
 }
