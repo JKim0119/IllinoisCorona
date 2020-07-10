@@ -6,17 +6,12 @@ import Feed from './pages/Feed';
 const pageList = [
   {
     name: 'Analytics',
-    path: '/home',
+    path: process.env.PUBLIC_URL + '/',
     component: Analytics,
   },
   {
-    name: 'Invoice',
-    path: '/invoice',
-    component: Invoice,
-  },
-  {
     name: 'Activity Feed',
-    path: '/feed',
+    path: process.env.PUBLIC_URL + '/feed',
     component: Feed,
   },
 ];
