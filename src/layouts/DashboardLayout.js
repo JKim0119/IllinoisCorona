@@ -75,7 +75,7 @@ export default class DashboardLayout extends Component {
                   {routes.map((page, key) => (
                     <Route path={page.path} component={page.component} key={key} />
                   ))}
-                  {/* <Redirect from={process.env.PUBLIC_URL + '/'} to={process.env.PUBLIC_URL + '/home'} /> */}
+                  {/* <Redirect from='/' to='/home' /> */}
                 </Switch>
               </PageContent>
             </Page>

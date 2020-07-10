@@ -5,7 +5,7 @@ import './vibe/scss/styles.scss';
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Switch>
         <Route component={DashboardLayout} />
       </Switch>
