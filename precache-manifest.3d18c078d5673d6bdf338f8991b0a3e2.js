@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "cd46d6fd19e564f4148b",
+    "revision": "2916cfbb377b2877494d",
     "url": "/static/css/main.edfb434a.chunk.css"
   },
   {
-    "revision": "cd46d6fd19e564f4148b",
-    "url": "/static/js/main.cd46d6fd.chunk.js"
+    "revision": "2916cfbb377b2877494d",
+    "url": "/static/js/main.2916cfbb.chunk.js"
   },
   {
     "revision": "2ab911c6c3a96c253593",
@@ -36,7 +36,7 @@ self.__precacheManifest = [
     "url": "/static/media/coronavirus.b098170c.svg"
   },
   {
-    "revision": "e6b6abb4314c128502d88fa2f53a885b",
+    "revision": "1f9614c693e545b9df8f2cd9642fb742",
     "url": "/index.html"
   }
 ];
