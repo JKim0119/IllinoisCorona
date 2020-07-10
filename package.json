@@ -4,7 +4,6 @@
   "version": "1.0.0",
   "description": "Website to see things for corona",
   "author": "Jacob Kim",
-  "homepage": "",
   "copyright": "Copyright 2020 Jacob Kim",
   "private": true,
   "dependencies": {
