@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { GET } from '../../api';
+import { lineChartOptions, percentageLineChartOptions } from '../../variables';
 import {
 	Row,
 	Col,
@@ -105,65 +106,6 @@ export default class AnalyticsPage extends Component {
 				primaryShade5: 'rgb(12, 70, 117)'
 			};
 
-			const lineChartOptions = {
-				elements: {
-					point: {
-						radius: 0
-					}
-				},
-				scales: {
-					xAxes: [
-						{
-							display: true
-						}
-					],
-					yAxes: [
-						{
-							display: true
-						}
-					]
-				},
-				legend: {
-					display: true
-				},
-				tooltips: {
-					mode: 'index',
-					intersect: false
-				}
-			}
-
-			const percentageLineChartOptions = {
-				elements: {
-					point: {
-						radius: 0
-					}
-				},
-				scales: {
-					xAxes: [
-						{
-							display: true
-						}
-					],
-					yAxes: [
-						{
-							ticks: {
-								callback: function (value) {
-									return value + "%"
-								}
-							},
-							display: true
-						}
-					]
-				},
-				legend: {
-					display: true
-				},
-				tooltips: {
-					mode: 'index',
-					intersect: false
-				}
-			}
-
 			let percentCases = []
 			for (let i = 1; i < this.state.dailyConfirmed.length; i++) {
 				percentCases.push((100 * this.state.dailyConfirmed[i] / this.state.dailyTotalTested[i]))
@@ -200,7 +142,7 @@ export default class AnalyticsPage extends Component {
 					labels: this.state.dates.slice(1),
 					datasets: [
 						{
-							label: '',
+							label: 'Percent',
 							data: percentCases,
 							borderColor: chartColors.blue,
 							pointBackgroundColor: chartColors.blue,
