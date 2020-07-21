@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/IllinoisCorona/precache-manifest.3cbae2c801d9cbadcfebec2ffa48963f.js"
+  "/IllinoisCorona/precache-manifest.463c2a15ce677c6958d12a829d49eda7.js"
 );
 
 workbox.clientsClaim();
