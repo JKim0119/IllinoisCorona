@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "ba0242312eebf5420131",
+    "revision": "d0c045590199eb42ab5e",
     "url": "/IllinoisCorona/static/css/main.edfb434a.chunk.css"
   },
   {
-    "revision": "ba0242312eebf5420131",
-    "url": "/IllinoisCorona/static/js/main.ba024231.chunk.js"
+    "revision": "d0c045590199eb42ab5e",
+    "url": "/IllinoisCorona/static/js/main.d0c04559.chunk.js"
   },
   {
     "revision": "db5208a7a59c72bb322e",
@@ -36,7 +36,7 @@ self.__precacheManifest = [
     "url": "/IllinoisCorona/static/media/coronavirus.b098170c.svg"
   },
   {
-    "revision": "8f0fbf6b515dc14ef93475fcb6596e70",
+    "revision": "3dbd3a96a4984294e2fc9ae9ecd60dea",
     "url": "/IllinoisCorona/index.html"
   }
 ];
