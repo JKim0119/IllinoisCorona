@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
 import { GET } from '../../api';
-import { lineChartOptions, percentageLineChartOptions } from '../../variables';
-import {
-	Row,
-	Col,
-	Card,
-	CardHeader,
-	CardBody
-} from 'reactstrap';
+import { lineChartOptions, percentageLineChartOptions, chartColors } from '../../variables';
+import { Row, Col, Card, CardHeader, CardBody } from 'reactstrap';
 import { Line } from 'react-chartjs-2';
 import Button from 'react-bootstrap/Button';
 import _ from "lodash";
@@ -26,8 +20,12 @@ export default class AnalyticsPage extends Component {
 			dailyConfirmed: null,
 			dailyDeaths: null,
 			changeDates: null,
+			changeTotalTested: null,
 			changeConfirmed: null,
-			changeDeaths: null
+			changeDeaths: null,
+			changeDailyTotalTested: null,
+			changeDailyConfirmed: null,
+			changeDailyDeaths: null
 		};
 
 		this.changeDateRange = this.changeDateRange.bind(this);
@@ -42,10 +40,15 @@ export default class AnalyticsPage extends Component {
 		GET('https://j0ek2o06f1.execute-api.us-east-2.amazonaws.com/test/coronaController')
 			.then((res = {}) => {
 				const { dates, totalTested, confirmed, deaths, dailyTotalTested, dailyConfirmed, dailyDeaths } = res
-				
+
 				let copyDates = _.cloneDeep(dates)
+				let copyTotalTested = _.cloneDeep(totalTested)
 				let copyConfirmed = _.cloneDeep(confirmed)
 				let copyDeaths = _.cloneDeep(deaths)
+				let copyDailyTotalTested = _.cloneDeep(dailyTotalTested)
+				let copyDailyConfirmed = _.cloneDeep(dailyConfirmed)
+				let copyDailyDeaths = _.cloneDeep(dailyDeaths)
+
 				this.setState({
 					coronaStatus: true,
 					dates: dates,
@@ -56,9 +59,14 @@ export default class AnalyticsPage extends Component {
 					dailyConfirmed: dailyConfirmed,
 					dailyDeaths: dailyDeaths,
 					changeDates: copyDates,
+					changeTotalTested: copyTotalTested,
 					changeConfirmed: copyConfirmed,
-					changeDeaths: copyDeaths
+					changeDeaths: copyDeaths,
+					changeDailyTotalTested: copyDailyTotalTested,
+					changeDailyConfirmed: copyDailyConfirmed,
+					changeDailyDeaths: copyDailyDeaths
 				})
+
 			}).catch(() => {
 				this.setState({ coronaStatus: false })
 			})
@@ -68,11 +76,17 @@ export default class AnalyticsPage extends Component {
 		let copyDates = _.cloneDeep(this.state.dates)
 		let copyConfirmed = _.cloneDeep(this.state.confirmed)
 		let copyDeaths = _.cloneDeep(this.state.deaths)
-		
+		let copyDailyConfirmed = _.cloneDeep(this.state.dailyConfirmed)
+		let copyDailyDeaths = _.cloneDeep(this.state.dailyDeaths)
+		let copyDailyTotalTested = _.cloneDeep(this.state.dailyTotalTested)
+
 		this.setState({
 			changeDates: copyDates.slice(days),
 			changeConfirmed: copyConfirmed.slice(days),
-			changeDeaths: copyDeaths.slice(days)
+			changeDeaths: copyDeaths.slice(days),
+			changeDailyConfirmed: copyDailyConfirmed.slice(days),
+			changeDailyDeaths: copyDailyDeaths.slice(days),
+			changeDailyTotalTested: copyDailyTotalTested.slice(days)
 		})
 	}
 
@@ -85,30 +99,9 @@ export default class AnalyticsPage extends Component {
 			return <div>Error</div>
 		}
 		else {
-			const chartColors = {
-				red: 'rgb(233, 30, 99)',
-				danger: 'rgb(233, 30, 99)',
-				dangerTransparent: 'rgba(233, 30, 99, .8)',
-				orange: 'rgb(255, 159, 64)',
-				yellow: 'rgb(255, 180, 0)',
-				green: 'rgb(34, 182, 110)',
-				blue: 'rgb(68, 159, 238)',
-				primary: 'rgb(68, 159, 238)',
-				primaryTransparent: 'rgba(68, 159, 238, .8)',
-				purple: 'rgb(153, 102, 255)',
-				grey: 'rgb(201, 203, 207)',
-				white: 'rgb(255, 255, 255)',
-
-				primaryShade1: 'rgb(68, 159, 238)',
-				primaryShade2: 'rgb(23, 139, 234)',
-				primaryShade3: 'rgb(14, 117, 202)',
-				primaryShade4: 'rgb(9, 85, 148)',
-				primaryShade5: 'rgb(12, 70, 117)'
-			};
-
 			let percentCases = []
-			for (let i = 1; i < this.state.dailyConfirmed.length; i++) {
-				percentCases.push((100 * this.state.dailyConfirmed[i] / this.state.dailyTotalTested[i]))
+			for (let i = 0; i < this.state.changeDailyConfirmed.length; i++) {
+				percentCases.push((100 * this.state.changeDailyConfirmed[i] / this.state.changeDailyTotalTested[i]).toFixed(2))
 			}
 
 			const confirmedLine = {
@@ -122,7 +115,16 @@ export default class AnalyticsPage extends Component {
 							pointBackgroundColor: chartColors.blue,
 							pointBorderColor: chartColors.blue,
 							borderWidth: 2
-						},
+						}
+					]
+				},
+				options: lineChartOptions
+			};
+
+			const deathLine = {
+				data: {
+					labels: this.state.changeDates,
+					datasets: [
 						{
 							label: 'Deaths',
 							data: this.state.changeDeaths,
@@ -135,11 +137,59 @@ export default class AnalyticsPage extends Component {
 				},
 				options: lineChartOptions
 			};
+			
+			const dailyTestedLine = {
+				data: {
+					labels: this.state.changeDates,
+					datasets: [
+						{
+							label: 'Daily Tested',
+							data: this.state.changeDailyTotalTested,
+							borderColor: chartColors.blue,
+							pointBackgroundColor: chartColors.blue,
+							pointBorderColor: chartColors.blue,
+							borderWidth: 2
+						}
+					]
+				}
+			};
+
+			const dailyConfirmedLine = {
+				data: {
+					labels: this.state.changeDates,
+					datasets: [
+						{
+							label: 'Daily Confirmed Cases',
+							data: this.state.changeDailyConfirmed,
+							borderColor: chartColors.blue,
+							pointBackgroundColor: chartColors.blue,
+							pointBorderColor: chartColors.blue,
+							borderWidth: 2
+						}
+					]
+				}
+			};
+
+			const dailyDeathLine = {
+				data: {
+					labels: this.state.changeDates,
+					datasets: [
+						{
+							label: 'Daily Deaths',
+							data: this.state.changeDailyDeaths,
+							borderColor: chartColors.red,
+							pointBackgroundColor: chartColors.red,
+							pointBorderColor: chartColors.red,
+							borderWidth: 2
+						}
+					]
+				}
+			};
 
 
 			const percentLine = {
 				data: {
-					labels: this.state.dates.slice(1),
+					labels: this.state.changeDates,
 					datasets: [
 						{
 							label: 'Percent',
@@ -150,8 +200,7 @@ export default class AnalyticsPage extends Component {
 							borderWidth: 2
 						}
 					]
-				},
-				options: percentageLineChartOptions
+				}
 			};
 
 			return (
@@ -162,6 +211,7 @@ export default class AnalyticsPage extends Component {
 							Here are a few graphs on how Illinois has been doing with coronavirus.
 						</p>
 					</div>
+
 					<div>
 						<Button onClick={() => this.changeDateRange(-7)} variant="primary">1 Week</Button>{' '}
 						<Button onClick={() => this.changeDateRange(-30)} variant="primary">1 Month</Button>{' '}
@@ -169,17 +219,19 @@ export default class AnalyticsPage extends Component {
 						<Button onClick={() => this.changeDateRange(0)} variant="primary">All</Button>{' '}
 					</div>
 
+					<br></br>
+
 					<Row>
 						<Col md={6} sm={12}>
 							<Card>
-								<CardHeader>Total Number of Confirmed Cases/Deaths</CardHeader>
+								<CardHeader>Confirmed Cases (Daily)</CardHeader>
 								<CardBody>
 									<div className="full-bleed">
 										<Line
-											data={confirmedLine.data}
+											data={dailyConfirmedLine.data}
 											width={2068}
 											height={846}
-											options={confirmedLine.options}
+											options={lineChartOptions}
 										/>
 									</div>
 								</CardBody>
@@ -187,14 +239,80 @@ export default class AnalyticsPage extends Component {
 						</Col>
 						<Col md={6} sm={12}>
 							<Card>
-								<CardHeader>Daily Confirmed Cases/Daily Tested</CardHeader>
+								<CardHeader>Confirmed Deaths (Daily)</CardHeader>
+								<CardBody>
+									<div className="full-bleed">
+										<Line
+											data={dailyDeathLine.data}
+											width={2068}
+											height={846}
+											options={lineChartOptions}
+										/>
+									</div>
+								</CardBody>
+							</Card>
+						</Col>
+					</Row>
+					
+					<Row>
+						<Col md={6} sm={12}>
+							<Card>
+								<CardHeader>Tested (Daily)</CardHeader>
+								<CardBody>
+									<div className="full-bleed">
+										<Line
+											data={dailyTestedLine.data}
+											width={2068}
+											height={846}
+											options={lineChartOptions}
+										/>
+									</div>
+								</CardBody>
+							</Card>
+						</Col>
+						<Col md={6} sm={12}>
+							<Card>
+								<CardHeader>Confirmed Cases/Tested (Daily)</CardHeader>
 								<CardBody>
 									<div className="full-bleed">
 										<Line
 											data={percentLine.data}
 											width={2068}
 											height={846}
-											options={percentLine.options}
+											options={percentageLineChartOptions}
+										/>
+									</div>
+								</CardBody>
+							</Card>
+						</Col>
+					</Row>
+
+					<Row>
+						<Col md={6} sm={12}>
+							<Card>
+								<CardHeader>Confirmed Cases (Cumulative)</CardHeader>
+								<CardBody>
+									<div className="full-bleed">
+										<Line
+											data={confirmedLine.data}
+											width={2068}
+											height={846}
+											options={lineChartOptions}
+										/>
+									</div>
+								</CardBody>
+							</Card>
+						</Col>
+						<Col md={6} sm={12}>
+							<Card>
+								<CardHeader>Confirmed Deaths (Cumulative)</CardHeader>
+								<CardBody>
+									<div className="full-bleed">
+										<Line
+											data={deathLine.data}
+											width={2068}
+											height={846}
+											options={lineChartOptions}
 										/>
 									</div>
 								</CardBody>
