@@ -2,7 +2,7 @@ export default {
   top: [
     {
       name: 'Analytics',
-      url:  '/',
+      url:  '/home',
       icon: 'BarChart2',
     },
     // {

@@ -1,4 +1,3 @@
-import Invoice from './pages/Invoice';
 import Analytics from './pages/Analytics';
 import Feed from './pages/Feed';
 
@@ -11,7 +10,7 @@ const pageList = [
   },
   {
     name: 'Analytics',
-    path: '/',
+    path: '/home',
     component: Analytics,
   },
 ];
