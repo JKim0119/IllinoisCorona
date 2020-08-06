@@ -25,7 +25,19 @@ export default class AnalyticsPage extends Component {
 			changeDeaths: null,
 			changeDailyTotalTested: null,
 			changeDailyConfirmed: null,
-			changeDailyDeaths: null
+			changeDailyDeaths: null,
+			bedsUsed: null,
+			bedsUsedCovid: null,
+			bedsAvailable: null,
+			totalBeds: null,
+			icuBedsUsed: null,
+			icuBedsUsedCovid: null,
+			icuBedsAvailable: null,
+			totalICUBeds: null,
+			ventilatorsUsed: null,
+			ventilatorsUsedCovid: null,
+			ventilatorsAvailable: null,
+			totalVentilators: null
 		};
 
 		this.changeDateRange = this.changeDateRange.bind(this);
@@ -34,6 +46,7 @@ export default class AnalyticsPage extends Component {
 
 	async componentDidMount() {
 		this.fetchCoronaData();
+		this.fetchHospitalUtil();
 	}
 
 	fetchCoronaData() {
@@ -70,6 +83,31 @@ export default class AnalyticsPage extends Component {
 			}).catch(() => {
 				this.setState({ coronaStatus: false })
 			})
+	}
+
+	fetchHospitalUtil() {
+		GET('https://cors-anywhere.herokuapp.com/https://www.dph.illinois.gov/sitefiles/COVIDHospitalRegions.json?nocache=1')
+		.then((res = {}) => {
+			const {statewideValues} = res
+			
+			this.setState({
+				bedsUsed: statewideValues['TotalBedsUsed'],
+				bedsUsedCovid: statewideValues['TotalCOVIDPUIInHospital'],
+				bedsAvailable: statewideValues['TotalBedsAvailable'],
+				totalBeds: statewideValues['TotalBeds'],
+				icuBedsUsed: statewideValues['ICUBedsUsed'],
+				icuBedsUsedCovid: statewideValues['ICUCovidPatients'],
+				icuBedsAvailable: statewideValues['ICUOpenBeds'],
+				totalICUBeds: statewideValues['ICUCapacity'],
+				ventilatorsUsed: statewideValues['VentilatorsInUse'],
+				ventilatorsUsedCovid: statewideValues['VentilatorsInUseCOVID'],
+				ventilatorsAvailable: statewideValues['VentilatorsOpen'],
+				totalVentilators: statewideValues['VentilatorCapacity'],
+			})
+		}).catch(() => {
+			this.setState({ coronaStatus: false })
+		})
+
 	}
 
 	changeDateRange(days) {
@@ -213,10 +251,10 @@ export default class AnalyticsPage extends Component {
 					</div>
 
 					<div>
-						<Button onClick={() => this.changeDateRange(-7)} variant="primary">1 Week</Button>{' '}
-						<Button onClick={() => this.changeDateRange(-30)} variant="primary">1 Month</Button>{' '}
-						<Button onClick={() => this.changeDateRange(-90)} variant="primary">3 Months</Button>{' '}
-						<Button onClick={() => this.changeDateRange(0)} variant="primary">All</Button>{' '}
+						<Button onClick={() => this.changeDateRange(-7)} variant="light">1 Week</Button>{' '}
+						<Button onClick={() => this.changeDateRange(-30)} variant="light">1 Month</Button>{' '}
+						<Button onClick={() => this.changeDateRange(-90)} variant="light">3 Months</Button>{' '}
+						<Button onClick={() => this.changeDateRange(0)} variant="light">All</Button>{' '}
 					</div>
 
 					<br></br>
